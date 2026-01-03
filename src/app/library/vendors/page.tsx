@@ -348,10 +348,10 @@ export default function VendorsPage() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-[13px] font-medium text-[#1D1D1F]">Email</label>
-                  <input 
+                  <input
                     type="email"
                     placeholder="vendor@example.com"
-                    className="w-full h-12 px-4 rounded-xl bg-[#F5F5F7] border-none text-[15px] placeholder:text-[#A0A0A0] outline-none focus:ring-2 focus:ring-[#007AFF]/20"
+                    className="w-full h-12 px-4 rounded-xl bg-[#F5F5F7] border-none text-[15px] placeholder:text-[#A0A0A0] outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/15"
                   />
                 </div>
                 
@@ -367,7 +367,7 @@ export default function VendorsPage() {
                 {isCorporate && (
                   <div className="space-y-2">
                     <label className="text-[13px] font-medium text-[#1D1D1F]">Assign to Team</label>
-                    <select className="w-full h-12 px-4 rounded-xl bg-[#F5F5F7] border-none text-[15px] text-[#1D1D1F] outline-none focus:ring-2 focus:ring-[#007AFF]/20">
+                    <select className="w-full h-12 px-4 rounded-xl bg-[#F5F5F7] border-none text-[15px] text-[#1D1D1F] outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/15">
                       <option value="maui">Four Seasons Maui</option>
                       <option value="oahu">Four Seasons Oahu</option>
                       <option value="bali">Four Seasons Bali</option>

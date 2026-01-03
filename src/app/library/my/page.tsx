@@ -15,6 +15,7 @@ import { useSelection } from "@/contexts/selection-context";
 import { useDragDrop, useDroppableFolder, NINO_DRAG_TYPE } from "@/contexts/drag-drop-context";
 import { SelectionCheckbox } from "@/components/ui/selection-checkbox";
 import { SelectionToolbar } from "@/components/ui/selection-toolbar";
+import { useEscapeKey } from "@/hooks/use-escape-key";
 import { 
   ChevronRight, 
   ChevronDown,
@@ -459,6 +460,33 @@ export default function MyLibraryPage() {
   const breadcrumbs = getBreadcrumbs();
   const pageInfo = isVendor ? { title: "My Uploads", subtitle: `Uploads to ${user.teamName || "Four Seasons"}` } : { title: "My Library", subtitle: breadcrumbs.length > 0 ? null : "Your personal workspace" };
 
+  // Standard: ESC closes the “top-most” surface (menus/modals/preview)
+  const escEnabled = !!(
+    showSortMenu ||
+    contextMenu ||
+    assetMenu ||
+    showNewFolderModal ||
+    !!shareModal ||
+    !!renameModal ||
+    !!rejectionModal ||
+    !!deleteConfirm ||
+    showSubmissionHistory ||
+    !!previewAsset
+  );
+
+  useEscapeKey(escEnabled, () => {
+    if (assetMenu) return setAssetMenu(null);
+    if (contextMenu) return setContextMenu(null);
+    if (showSortMenu) return setShowSortMenu(false);
+    if (showNewFolderModal) return setShowNewFolderModal(false);
+    if (shareModal) return setShareModal(null);
+    if (renameModal) return setRenameModal(null);
+    if (rejectionModal) return setRejectionModal(null);
+    if (deleteConfirm) return setDeleteConfirm(null);
+    if (showSubmissionHistory) return setShowSubmissionHistory(false);
+    if (previewAsset) return setPreviewAsset(null);
+  });
+
   // Simple fade-in card wrapper
   const FadeInCard = ({ children, index }: { children: React.ReactNode; index: number }) => (
     <div className="animate-fadeIn" style={{ animationDelay: `${index * 30}ms` }}>{children}</div>
@@ -728,6 +756,24 @@ export default function MyLibraryPage() {
           onDragEnd={handleDragEnd}
           onClick={handleCardClick}
           onContextMenu={(e) => handleAssetRightClick(e, asset)}
+          role="button"
+          tabIndex={0}
+          aria-label={isFolder ? `Open folder ${asset.title}` : `Open asset ${asset.title}`}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              if (isFolder) {
+                navigateToFolder(asset.id);
+              } else {
+                // Mirror click behavior: if selecting, clear selection first
+                if (selection.isSelecting) selection.clearSelection();
+                else setPreviewAsset(asset);
+              }
+            }
+            if (e.key === " ") {
+              e.preventDefault();
+              selection.toggle(asset.id);
+            }
+          }}
           className={cn(
             "group relative aspect-square rounded-[22px] overflow-hidden border shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out bg-[#F8F8F8]",
             !isFolder ? "cursor-grab active:cursor-grabbing" : "cursor-pointer",
@@ -849,8 +895,24 @@ export default function MyLibraryPage() {
       <div 
         data-asset 
         onContextMenu={(e) => handleAssetRightClick(e, asset)} 
-        className={cn("flex items-center gap-3.5 px-4 py-3 hover:bg-[#F8F8FA] transition-colors group", isFolder && "cursor-pointer")} 
-        onClick={isFolder ? () => navigateToFolder(asset.id) : undefined}
+        role="button"
+        tabIndex={0}
+        className={cn(
+          "flex items-center gap-3.5 px-4 py-3 hover:bg-[#F8F8FA] transition-colors group",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 dark:focus-visible:ring-white/15 focus-visible:ring-inset rounded-xl",
+          isFolder ? "cursor-pointer" : "cursor-pointer"
+        )} 
+        onClick={isFolder ? () => navigateToFolder(asset.id) : () => setPreviewAsset(asset)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            if (isFolder) navigateToFolder(asset.id);
+            else setPreviewAsset(asset);
+          }
+          if (e.key === " ") {
+            e.preventDefault();
+            selection.toggle(asset.id);
+          }
+        }}
       >
         <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#F5F5F7] border border-black/[0.06] shrink-0">
           {isFolder ? (
@@ -1054,7 +1116,7 @@ export default function MyLibraryPage() {
         onDrop={handleDrop}
         className={cn(
           "min-h-[300px] rounded-2xl transition-all duration-200 relative", 
-          isDraggingOver && "bg-[#007AFF]/5 ring-2 ring-[#007AFF] ring-inset"
+          isDraggingOver && "bg-black/5 ring-2 ring-black/10 dark:ring-white/15 ring-inset"
         )}
       >
         {/* Upload drop zone overlay (only for external files) */}

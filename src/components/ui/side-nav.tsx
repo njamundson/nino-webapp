@@ -247,7 +247,7 @@ const SideNav = ({
                     onClick={() => setIsMobileOpen(false)}
                     aria-current={item.active ? "page" : undefined}
                     className={cn(
-                      "relative flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF] focus-visible:ring-offset-2 z-10",
+                      "relative flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black z-10",
                       !item.active && "hover:bg-black/[0.03] transition-colors duration-150"
                     )}
                   >
@@ -281,7 +281,7 @@ const SideNav = ({
           onClick={() => setIsCreateOpen(!isCreateOpen)}
           aria-expanded={isCreateOpen}
           aria-controls="create-menu"
-          className="px-2.5 py-1.5 flex items-center gap-1.5 text-[12px] font-medium text-[#8E8E93] hover:text-[#6E6E73] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF] focus-visible:ring-offset-2 rounded"
+          className="px-2.5 py-1.5 flex items-center gap-1.5 text-[12px] font-medium text-[#8E8E93] hover:text-[#6E6E73] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black rounded"
         >
           <span>Create</span>
           <ChevronDown 
@@ -324,7 +324,7 @@ const SideNav = ({
                       onClick={() => setIsMobileOpen(false)}
                       aria-current={item.active ? "page" : undefined}
                       className={cn(
-                        "relative flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF] focus-visible:ring-offset-2 z-10",
+                        "relative flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black z-10",
                         !item.active && "hover:bg-black/[0.03] transition-colors duration-150"
                       )}
                     >
@@ -363,7 +363,7 @@ const SideNav = ({
         <Link 
           href="/library/settings"
           onClick={() => setIsMobileOpen(false)}
-          className="flex items-center gap-2 px-2 py-1.5 text-[#1D1D1F] hover:bg-black/[0.03] rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF] focus-visible:ring-offset-2"
+          className="flex items-center gap-2 px-2 py-1.5 text-[#1D1D1F] hover:bg-black/[0.03] rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
         >
           {user.avatar ? (
             <img 
@@ -397,7 +397,7 @@ const SideNav = ({
         aria-label="Open navigation menu"
         aria-expanded={isMobileOpen}
         aria-controls="mobile-nav"
-        className="fixed top-4 left-4 z-50 lg:hidden h-10 w-10 rounded-xl bg-white/90 backdrop-blur-xl border border-black/[0.08] flex items-center justify-center text-[#1D1D1F] shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF]"
+        className="fixed top-4 left-4 z-50 lg:hidden h-10 w-10 rounded-xl bg-white/90 backdrop-blur-xl border border-black/[0.08] flex items-center justify-center text-[#1D1D1F] shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
       >
         <Menu size={20} aria-hidden="true" />
       </button>
@@ -436,7 +436,7 @@ const SideNav = ({
             <button
               onClick={() => setIsMobileOpen(false)}
               aria-label="Close navigation menu"
-              className="absolute top-4 right-4 h-8 w-8 rounded-lg hover:bg-black/[0.05] flex items-center justify-center text-[#8E8E93] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF]"
+              className="absolute top-4 right-4 h-8 w-8 rounded-lg hover:bg-black/[0.05] flex items-center justify-center text-[#8E8E93] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
             >
               <X size={18} aria-hidden="true" />
             </button>
