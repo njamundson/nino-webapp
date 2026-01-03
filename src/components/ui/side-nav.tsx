@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { LucideIcon, ChevronDown, Menu, X, PenLine, Film, Palette, Building2, Hotel, Camera } from "lucide-react";
 import { useRole, UserRole } from "@/contexts/role-context";
 
@@ -220,28 +220,23 @@ const SideNav = ({
         </div>
       </div>
 
-      <LayoutGroup>
-        {/* Nav Items - with buttery smooth sliding selector */}
-        <nav aria-label="Main navigation">
-          <ul className="space-y-0.5 relative" role="list">
-            {items.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <li key={item.href} className="relative">
-                  {/* Sliding selector - Apple-level smoothness */}
-                  {item.active && (
-                    <motion.div
-                      layoutId="nav-active-indicator"
-                      className="absolute inset-0 bg-white border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.03)] rounded-lg"
-                      initial={false}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 35,
-                        mass: 1,
-                      }}
-                    />
-                  )}
+      {/* Nav Items - calm (no sliding pill) */}
+      <nav aria-label="Main navigation">
+        <ul className="space-y-0.5" role="list">
+          {items.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.href} className="relative">
+                {/* Active background (fade only — no travel) */}
+                {item.active && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18, ease: [0.2, 0.9, 0.2, 1] }}
+                    className="absolute inset-0 bg-white border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.03)] rounded-lg"
+                  />
+                )}
                   <Link
                     href={item.href}
                     onClick={() => setIsMobileOpen(false)}
@@ -269,14 +264,14 @@ const SideNav = ({
                       {item.label}
                     </span>
                   </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-        {/* Create Section */}
-        <div className="mt-4">
+      {/* Create Section */}
+      <div className="mt-4">
         <button 
           onClick={() => setIsCreateOpen(!isCreateOpen)}
           aria-expanded={isCreateOpen}
@@ -302,21 +297,17 @@ const SideNav = ({
               transition={{ duration: 0.15, ease: "easeOut" }}
               className="space-y-0.5 overflow-hidden mt-1 relative"
             >
-              {createItems.map((item, index) => {
+              {createItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <li key={item.href} className="relative">
                     {item.active && (
                       <motion.div
-                        layoutId="nav-active-indicator"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.18, ease: [0.2, 0.9, 0.2, 1] }}
                         className="absolute inset-0 bg-white border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.03)] rounded-lg"
-                        initial={false}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 35,
-                          mass: 1,
-                        }}
                       />
                     )}
                     <Link
@@ -352,8 +343,7 @@ const SideNav = ({
             </motion.ul>
           )}
         </AnimatePresence>
-        </div>
-      </LayoutGroup>
+      </div>
 
       {/* Role Switcher (Demo) - Only shown when inside RoleProvider */}
       {showRoleSwitcher && <RoleSwitcherInline />}
